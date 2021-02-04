@@ -21,6 +21,10 @@ public class Inventory {
 		this.location = location;
 	}
 	public int getQuantity() {
+		if(quantity < 1) {
+			System.out.println("SOLD OUT");
+			quantity = 0;
+		}
 		return quantity;
 	}
 	public void setQuantity(int quantity) {
@@ -34,7 +38,7 @@ public class Inventory {
 	}
 	
 	public Inventory() throws FileNotFoundException {
-		quantity = 5;
+		quantity = getQuantity();
 		this.slot = new TreeMap<String, Item>();
 		loadFile();
 	}
@@ -47,6 +51,7 @@ public class Inventory {
 		String name = "";
 		double price = 0.0;
 		String category = "";
+		quantity = getQuantity();
 		
 		while(inputDataFile.hasNext()) {
 			String itemDetail = inputDataFile.nextLine();
@@ -58,6 +63,7 @@ public class Inventory {
 			category = itemAttributes[3];
 			
 			Item anItem = new Item(category, name, price);
+			
 			
 			slot.put(location, anItem);
 		}

@@ -12,7 +12,7 @@ public class Purchase {
 	private double currentMoney;
 	private static final String PURCHASE_MENU_OPTION_FEED_MONEY         = "Feed Money";
 	private static final String PURCHASE_MENU_OPTION_SELECT_PRODUCT     = "Select Product";
-	private static final String PURCHASE_MENU_OPTION_FINISH_TRANSACTION = "Fnish Transaction";
+	private static final String PURCHASE_MENU_OPTION_FINISH_TRANSACTION = "Finish Transaction";
 	private static final String[] PURCHASE_MENU_OPTIONS = { PURCHASE_MENU_OPTION_FEED_MONEY,
 													   	PURCHASE_MENU_OPTION_SELECT_PRODUCT,
 													    PURCHASE_MENU_OPTION_FINISH_TRANSACTION
@@ -30,7 +30,6 @@ public class Purchase {
 	
 	public void feedMoney() {
 		boolean continueFeed = true;
-		// initiate a scanner object to take user input
 		System.out.println("Money remaining: " + currentMoney + "0");
 		do {
 		Scanner userInput = new Scanner(System.in);
@@ -79,8 +78,6 @@ public class Purchase {
 	}
 	
 	public String dispenseItem() throws FileNotFoundException {
-		// if they choose select product, allow user to enter the code to select an item
-		
 		Inventory itemPrintOut = new Inventory();
 		for(Map.Entry<String, Item> item : itemPrintOut.getSlot().entrySet()) {
 			System.out.print(item.getKey() + ", ");
@@ -97,7 +94,7 @@ public class Purchase {
 			if(itemChoice.equalsIgnoreCase(i.getKey())) {
 				currentMoney -= i.getValue().getPrice();
 				itemPrintOut.setQuantity(itemPrintOut.getQuantity() - 1);
-				System.out.println(i.getValue().toString() + ", you have $" + currentMoney + " left. " + itemPrintOut.getQuantity() + " remaining.");
+				System.out.println(i.getValue().toString() + ". You have $" + currentMoney + " left. " + itemPrintOut.getQuantity() + " remaining.");
 			}
 		}
 		return null;
