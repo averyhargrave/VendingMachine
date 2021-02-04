@@ -49,7 +49,7 @@ public class Purchase {
 		default:
 			System.out.println("This machine only accepts $1, $2, $5, or $10.");
 		}
-		System.out.println("$" + currentMoney + "0 remaining");
+		System.out.println("$" + currentMoney + " remaining");
 		System.out.println("Would you like to feed more money? (Y/N)");
 		String response = userInput.nextLine();
 		
