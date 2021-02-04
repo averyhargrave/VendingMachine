@@ -1,4 +1,7 @@
 package com.techelevator;
+import java.io.FileNotFoundException;
+import java.util.Map;
+
 /**************************************************************************************************************************
 *  This is your Vending Machine Command Line Interface (CLI) class
 *
@@ -23,11 +26,14 @@ public class VendingMachineCLI {
 													    MAIN_MENU_OPTION_PURCHASE,
 													    MAIN_MENU_OPTION_EXIT
 													    };
+	private Inventory itemPrintOut;
 	
 	private Menu vendingMenu;              // Menu object to be used by an instance of this class
 	
-	public VendingMachineCLI(Menu menu) {  // Constructor - user will pas a menu for this class to use
+	public VendingMachineCLI(Menu menu) throws FileNotFoundException {  // Constructor - user will pas a menu for this class to use
 		this.vendingMenu = menu;           // Make the Menu the user object passed, our Menu
+		
+		itemPrintOut = new Inventory();
 	}
 	/**************************************************************************************************************************
 	*  VendingMachineCLI main processing loop
@@ -36,6 +42,7 @@ public class VendingMachineCLI {
 	*
 	*  It is invoked from the VendingMachineApp program
 	*
+	*
 	*  THIS is where most, if not all, of your Vending Machine objects and interactions 
 	*  should be coded
 	*
@@ -43,6 +50,7 @@ public class VendingMachineCLI {
 	*
 	***************************************************************************************************************************/
 
+	
 	public void run() {
 
 		boolean shouldProcess = true;         // Loop control variable
@@ -73,7 +81,12 @@ public class VendingMachineCLI {
  * Methods used to perform processing
  ********************************************************************************************************/
 	public void displayItems() {      // static attribute used as method is not associated with specific object instance
-		// Code to display items in Vending Machine
+		for(Map.Entry<String, Item> item : itemPrintOut.getSlot().entrySet()) {
+			System.out.print(item.getKey() + " ");
+			System.out.print(item.getValue().getName() + " ");
+			System.out.print(item.getValue().getPrice() + " ");
+			System.out.println(item.getValue().getCategory() + " ");
+		}
 	}
 	
 	public void purchaseItems() {	 // static attribute used as method is not associated with specific object instance
