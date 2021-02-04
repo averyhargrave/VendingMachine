@@ -27,6 +27,8 @@ public class VendingMachineCLI {
 													    MAIN_MENU_OPTION_EXIT
 													    };
 	private Inventory itemPrintOut;
+	private Purchase aPurchase;
+	
 	
 	private Menu vendingMenu;              // Menu object to be used by an instance of this class
 	
@@ -34,6 +36,7 @@ public class VendingMachineCLI {
 		this.vendingMenu = menu;           // Make the Menu the user object passed, our Menu
 		
 		itemPrintOut = new Inventory();
+		aPurchase = new Purchase();
 	}
 	/**************************************************************************************************************************
 	*  VendingMachineCLI main processing loop
@@ -82,15 +85,16 @@ public class VendingMachineCLI {
  ********************************************************************************************************/
 	public void displayItems() {      // static attribute used as method is not associated with specific object instance
 		for(Map.Entry<String, Item> item : itemPrintOut.getSlot().entrySet()) {
-			System.out.print(item.getKey() + " ");
-			System.out.print(item.getValue().getName() + " ");
-			System.out.print(item.getValue().getPrice() + " ");
-			System.out.println(item.getValue().getCategory() + " ");
+			System.out.print(item.getKey() + ", ");
+			System.out.print(item.getValue().getName() + ", ");
+			System.out.print(item.getValue().getPrice() + ", ");
+			System.out.print(item.getValue().getCategory() + ", ");
+			System.out.println(itemPrintOut.getQuantity());
 		}
 	}
 	
 	public void purchaseItems() {	 // static attribute used as method is not associated with specific object instance
-		// Code to purchase items from Vending Machine
+		aPurchase.feedMoney();
 	}
 	
 	public void endMethodProcessing() { // static attribute used as method is not associated with specific object instance

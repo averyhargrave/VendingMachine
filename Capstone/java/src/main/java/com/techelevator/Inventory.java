@@ -23,7 +23,7 @@ public class Inventory {
 		if (this.quantity < 1) {
 			return "Sold Out";
 		} else {
-			return String.valueOf(quantity);
+			return String.valueOf(quantity) + " remaining";
 		}
 	}
 	public void setQuantity(int quantity) {
