@@ -94,7 +94,7 @@ public class VendingMachineCLI {
 	}
 	
 	public void purchaseItems() {	 // static attribute used as method is not associated with specific object instance
-		aPurchase.feedMoney();
+		purchaseMenu();
 	}
 	
 	public void endMethodProcessing() { // static attribute used as method is not associated with specific object instance
