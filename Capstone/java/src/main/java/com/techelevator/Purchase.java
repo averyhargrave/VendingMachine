@@ -1,13 +1,15 @@
 package com.techelevator;
 
+import java.io.FileNotFoundException;
+import java.util.Map;
 import java.util.Scanner;
 import com.techelevator.view.Menu;
 
 public class Purchase {
 
+
 	private Menu purchaseMenu;
 	private double currentMoney;
-	
 	private static final String PURCHASE_MENU_OPTION_FEED_MONEY         = "Feed Money";
 	private static final String PURCHASE_MENU_OPTION_SELECT_PRODUCT     = "Select Product";
 	private static final String PURCHASE_MENU_OPTION_FINISH_TRANSACTION = "Fnish Transaction";
@@ -15,8 +17,11 @@ public class Purchase {
 													   	PURCHASE_MENU_OPTION_SELECT_PRODUCT,
 													    PURCHASE_MENU_OPTION_FINISH_TRANSACTION
 													    };
+
 	
-	public Purchase() {
+	
+	public Purchase(Menu menu) {
+			this.purchaseMenu = menu;
 	}
 	
 	public double getCurrentMoney() {
@@ -73,22 +78,50 @@ public class Purchase {
 	} while(continueFeed);
 	}
 	
-	public String dispenseItem(Item desiredItem) {
+	public String dispenseItem() throws FileNotFoundException {
+		// if they choose select product, allow user to enter the code to select an item
 		
+		Inventory itemPrintOut = new Inventory();
+		for(Map.Entry<String, Item> item : itemPrintOut.getSlot().entrySet()) {
+			System.out.print(item.getKey() + ", ");
+			System.out.print(item.getValue().getName() + ", $");
+			System.out.print(item.getValue().getPrice() + ", ");
+			System.out.println(itemPrintOut.getQuantity() + " remaining");
+		}
+		System.out.println("\nPlease make a selection:");
+		
+		Scanner userInput = new Scanner(System.in);
+		String itemChoice = userInput.nextLine();
+		
+		for(Map.Entry<String, Item> i : itemPrintOut.getSlot().entrySet()) {
+			if(itemChoice.equalsIgnoreCase(i.getKey())) {
+				currentMoney -= i.getValue().getPrice();
+				itemPrintOut.setQuantity(itemPrintOut.getQuantity() - 1);
+				System.out.println(i.getValue().toString() + ", you have $" + currentMoney + " left. " + itemPrintOut.getQuantity() + " remaining.");
+			}
+		}
 		return null;
 	}
 	
-	public double giveChange() {
-		
-		return 0;
-	}
+//	public double giveChange() {
+//		double quarters = 0; // 0.25
+//		double dimes = 0;    // 0.10
+//		double nickels = 0;  // 0.05
+//		
+//		if(currentMoney % 0.25 == 0) {
+//			quarters = currentMoney / 0.25;
+//		}
+//		
+//	}
 	
 	public String salesReport() {
 		
 		return null;
 	}
 	
-	public void purchaseMenu() {
+	
+	
+	public void purchaseMenu() throws FileNotFoundException {
 
 		boolean shouldProcess = true;         // Loop control variable
 		
@@ -99,11 +132,11 @@ public class Purchase {
 			switch(choice) {                  // Process based on user menu choice
 			
 				case PURCHASE_MENU_OPTION_FEED_MONEY:
-					feedMoney();           // invoke method to display items in Vending Machine
+					feedMoney();              // invoke method to display items in Vending Machine
 					break;                    // Exit switch statement
 			
 				case PURCHASE_MENU_OPTION_SELECT_PRODUCT:
-					          // invoke method to purchase items from Vending Machine
+					dispenseItem();			  // invoke method to purchase items from Vending Machine
 					break;                    // Exit switch statement
 			
 				case PURCHASE_MENU_OPTION_FINISH_TRANSACTION:

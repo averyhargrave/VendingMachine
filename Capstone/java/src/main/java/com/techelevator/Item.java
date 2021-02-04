@@ -50,5 +50,10 @@ public class Item {
 		}
 		else return "";
 	}
+	
+	@Override
+	public String toString() {
+		return name + ", $" + price;
+	}
 
 }

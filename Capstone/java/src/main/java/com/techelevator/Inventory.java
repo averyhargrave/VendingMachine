@@ -6,12 +6,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.TreeMap;
 
 public class Inventory {
 
 	private String location;
 	private int quantity = 5;
-	private Map<String, Item> slot;
+	private TreeMap<String, Item> slot;
 
 	public String getLocation() {
 		return location;
@@ -19,12 +20,8 @@ public class Inventory {
 	public void setLocation(String location) {
 		this.location = location;
 	}
-	public String getQuantity() {
-		if (this.quantity < 1) {
-			return "Sold Out";
-		} else {
-			return String.valueOf(quantity) + " remaining";
-		}
+	public int getQuantity() {
+		return quantity;
 	}
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
@@ -32,13 +29,13 @@ public class Inventory {
 	public Map<String, Item> getSlot() {
 		return slot;
 	}
-	public void setSlot(Map<String, Item> slot) {
+	public void setSlot(TreeMap<String, Item> slot) {
 		this.slot = slot;
 	}
 	
 	public Inventory() throws FileNotFoundException {
 		quantity = 5;
-		this.slot = new HashMap<String, Item>();
+		this.slot = new TreeMap<String, Item>();
 		loadFile();
 	}
 	

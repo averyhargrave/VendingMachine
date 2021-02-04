@@ -18,7 +18,8 @@ import com.techelevator.view.Menu;         // Gain access to Menu class provided
 public class VendingMachineCLI {
 
     // Main menu options defined as constants
-
+	Menu menu = new Menu(System.in, System.out);
+	
 	private static final String MAIN_MENU_OPTION_DISPLAY_ITEMS = "Display Vending Machine Items";
 	private static final String MAIN_MENU_OPTION_PURCHASE      = "Purchase";
 	private static final String MAIN_MENU_OPTION_EXIT          = "Exit";
@@ -36,7 +37,7 @@ public class VendingMachineCLI {
 		this.vendingMenu = menu;           // Make the Menu the user object passed, our Menu
 		
 		itemPrintOut = new Inventory();
-		aPurchase = new Purchase();
+		aPurchase = new Purchase(menu);
 	}
 	/**************************************************************************************************************************
 	*  VendingMachineCLI main processing loop
@@ -50,11 +51,12 @@ public class VendingMachineCLI {
 	*  should be coded
 	*
 	*  Methods should be defined following run() method and invoked from it
+	 * @throws FileNotFoundException 
 	*
 	***************************************************************************************************************************/
 
 	
-	public void run() {
+	public void run() throws FileNotFoundException {
 
 		boolean shouldProcess = true;         // Loop control variable
 		
@@ -86,15 +88,15 @@ public class VendingMachineCLI {
 	public void displayItems() {      // static attribute used as method is not associated with specific object instance
 		for(Map.Entry<String, Item> item : itemPrintOut.getSlot().entrySet()) {
 			System.out.print(item.getKey() + ", ");
-			System.out.print(item.getValue().getName() + ", ");
+			System.out.print(item.getValue().getName() + ", $");
 			System.out.print(item.getValue().getPrice() + ", ");
 			System.out.print(item.getValue().getCategory() + ", ");
 			System.out.println(itemPrintOut.getQuantity());
 		}
 	}
 	
-	public void purchaseItems() {	 // static attribute used as method is not associated with specific object instance
-		purchaseMenu();
+	public void purchaseItems() throws FileNotFoundException {	 // static attribute used as method is not associated with specific object instance
+		aPurchase.purchaseMenu();
 	}
 	
 	public void endMethodProcessing() { // static attribute used as method is not associated with specific object instance
