@@ -44,7 +44,7 @@ public class Purchase  {
 	
 	public void feedMoney() throws NumberFormatException, IOException {
 		boolean continueFeed = true;
-		System.out.println("Money remaining: " + currentMoney + "0");
+		System.out.println("Money remaining: " + String.format("%.2f", currentMoney));
 		do {
 			Scanner userInput = new Scanner(System.in);
 			System.out.println("Please insert a $1, $2, $5, or $10 bill.");
@@ -103,18 +103,13 @@ public class Purchase  {
 		double startingMoney = 0.0;
 		double endingMoney = 0.0;
 		String nameLocation = "";
-		String salesReportName = "";
-		int quantityRemaining = 0;
-		double sale = 0.0;
+		
 		for(Map.Entry<String, Item> item : itemPrintOut.getSlot().entrySet()) {
 			System.out.print(item.getKey() + ", ");
 			System.out.print(item.getValue().getName() + ", $");
 			System.out.print(String.format("%.2f",item.getValue().getPrice()) + ", ");
 			System.out.println(item.getValue().getQuantity() + " remaining");
 			nameLocation = item.getValue().getName() + " " + item.getKey();
-			salesReportName = item.getValue().getName();
-			quantityRemaining = item.getValue().getQuantity(); 
-			sale = (5 - quantityRemaining) * item.getValue().getPrice();
 		}
 		startingMoney = currentMoney;
 		
@@ -138,12 +133,9 @@ public class Purchase  {
 			itemA.printMessage();
 			System.out.println(itemA.toString() + ". You have $" + String.format("%.2f", currentMoney) + " left. " + itemA.getQuantity() + " remaining.");
 		}
-		salesReportName = itemA.getName();
-		quantityRemaining = itemA.getQuantity(); 
-		sale += (5 - quantityRemaining) * itemA.getPrice();
 		
 		auditEntry(nameLocation, startingMoney, endingMoney);
-		salesReport(salesReportName, quantityRemaining, sale);
+		
 		
 		return null;
 	}
@@ -185,10 +177,6 @@ public class Purchase  {
 		//aPrintWriter.println(timestampNow.toString()); 
 		aPrintWriter.println(timestampNow.toString() + " " + transactionName + ": $" + String.format("%.2f",startingMoney) + " $" + String.format("%.2f",currentMoney)); 
 		aPrintWriter.close();
-		
-		
-		
-		
 	}
 	
 	
@@ -223,20 +211,7 @@ public class Purchase  {
 		return;                               // End method and return to caller
 	}
 	
-	public void salesReport(String itemName, int quantity, double sale) throws IOException {
-		File salesReport = new File("./SalesReport.txt");
-		
-		FileWriter theFile = new FileWriter(salesReport, true);
-		
-		BufferedWriter aBufferedWriter= new BufferedWriter(theFile);
-		PrintWriter aPrintWriter = new PrintWriter(aBufferedWriter);
-		
-		Timestamp timestampNow = Timestamp.valueOf(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
 	
-		
-		aPrintWriter.println(timestampNow.toString() + " | " + itemName + " | " + quantity + " | TotalSales: $" + String.format("%.2f",sale)); 
-		aPrintWriter.close();
-	}
 	
 	public void endMethodProcessing() {
 		

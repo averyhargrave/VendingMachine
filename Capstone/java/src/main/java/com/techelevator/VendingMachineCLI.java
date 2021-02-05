@@ -1,7 +1,15 @@
 package com.techelevator;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Map;
+import java.util.Set;
 
 /**************************************************************************************************************************
 *  This is your Vending Machine Command Line Interface (CLI) class
@@ -83,6 +91,8 @@ public class VendingMachineCLI {
 					break; 
 												// Exit switch statement
 				case MAIN_MENU_OPTION_SALES_REPORT:
+					salesReport();
+					break;
 			}	
 		}
 		return;                               // End method and return to caller
@@ -102,6 +112,33 @@ public class VendingMachineCLI {
 	
 	public void purchaseItems() throws IOException {	 // static attribute used as method is not associated with specific object instance
 		aPurchase.purchaseMenu();
+	}
+	
+	public void salesReport() throws IOException {
+		File salesReport = new File("./SalesReport.txt");
+		
+		FileWriter theFile = new FileWriter(salesReport, true);
+		
+		BufferedWriter aBufferedWriter= new BufferedWriter(theFile);
+		PrintWriter aPrintWriter = new PrintWriter(aBufferedWriter);
+	
+		//get all the keys from the map
+		Set<String> locations = itemPrintOut.getSlot().keySet();
+		
+		//loop through the map using the keys to get the items
+		for (String location : locations) {
+			
+		Item anItem = itemPrintOut.getSlot().get(location);//get the item out of the map
+		
+		int quantitySold = (5 - anItem.getQuantity());
+		
+		double totalSale = quantitySold * anItem.getPrice();
+		
+		aPrintWriter.println(anItem.getName() + " | " + quantitySold + " | Total Sales: $" + String.format("%.2f",totalSale)); 
+		
+		}
+		aPrintWriter.close();
+	
 	}
 	
 	public void endMethodProcessing() { // static attribute used as method is not associated with specific object instance
