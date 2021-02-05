@@ -1,40 +1,17 @@
-2021-02-05 14:49:39.0 | Potato Crisps | 4 | TotalSales: $26.50
-2021-02-05 14:49:57.0 | Triplemint | 4 | TotalSales: $26.50
-2021-02-05 14:54:26.0 | Stackers | 4 | TotalSales: $1.45
-2021-02-05 14:54:35.0 | Dr. Salt | 4 | TotalSales: $1.50
-2021-02-05 14:54:42.0 | Triplemint | 4 | TotalSales: $0.75
-2021-02-05 15:00:12.0 | Triplemint | 4 | TotalSales: $0.75
-2021-02-05 15:00:17.0 | Chiclets | 4 | TotalSales: $1.50
-2021-02-05 15:00:24.0 | U-Chews | 4 | TotalSales: $2.35
-Potato Crisps | 0 | Total Sales: $0.00
-Stackers | 0 | Total Sales: $0.00
-Grain Waves | 0 | Total Sales: $0.00
-Cloud Popcorn | 0 | Total Sales: $0.00
-Moonpie | 0 | Total Sales: $0.00
-Cowtales | 0 | Total Sales: $0.00
-Wonka Bar | 0 | Total Sales: $0.00
-Crunchie | 0 | Total Sales: $0.00
-Cola | 0 | Total Sales: $0.00
-Dr. Salt | 0 | Total Sales: $0.00
-Mountain Melter | 0 | Total Sales: $0.00
-Heavy | 0 | Total Sales: $0.00
-U-Chews | 0 | Total Sales: $0.00
-Little League Chew | 0 | Total Sales: $0.00
-Chiclets | 0 | Total Sales: $0.00
-Triplemint | 0 | Total Sales: $0.00
-Potato Crisps | 0 | Total Sales: $0.00
-Stackers | 0 | Total Sales: $0.00
-Grain Waves | 0 | Total Sales: $0.00
-Cloud Popcorn | 0 | Total Sales: $0.00
-Moonpie | 0 | Total Sales: $0.00
-Cowtales | 0 | Total Sales: $0.00
-Wonka Bar | 0 | Total Sales: $0.00
-Crunchie | 0 | Total Sales: $0.00
-Cola | 0 | Total Sales: $0.00
-Dr. Salt | 0 | Total Sales: $0.00
-Mountain Melter | 0 | Total Sales: $0.00
-Heavy | 0 | Total Sales: $0.00
-U-Chews | 0 | Total Sales: $0.00
-Little League Chew | 0 | Total Sales: $0.00
-Chiclets | 0 | Total Sales: $0.00
-Triplemint | 0 | Total Sales: $0.00
+Potato Crisps | 0
+Stackers | 0
+Grain Waves | 0
+Cloud Popcorn | 0
+Moonpie | 0
+Cowtales | 0
+Wonka Bar | 0
+Crunchie | 0
+Cola | 0
+Dr. Salt | 0
+Mountain Melter | 0
+Heavy | 0
+U-Chews | 0
+Little League Chew | 0
+Chiclets | 0
+Triplemint | 3
+ | Total Sales: $2.25

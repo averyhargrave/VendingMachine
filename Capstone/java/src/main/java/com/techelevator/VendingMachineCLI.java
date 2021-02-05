@@ -117,26 +117,29 @@ public class VendingMachineCLI {
 	public void salesReport() throws IOException {
 		File salesReport = new File("./SalesReport.txt");
 		
-		FileWriter theFile = new FileWriter(salesReport, true);
+		FileWriter theFile = new FileWriter(salesReport, false);
 		
 		BufferedWriter aBufferedWriter= new BufferedWriter(theFile);
 		PrintWriter aPrintWriter = new PrintWriter(aBufferedWriter);
 	
 		//get all the keys from the map
 		Set<String> locations = itemPrintOut.getSlot().keySet();
-		
+		String totalSalePrintout = "";
 		//loop through the map using the keys to get the items
 		for (String location : locations) {
 			
-		Item anItem = itemPrintOut.getSlot().get(location);//get the item out of the map
+		Item anItem = aPurchase.getItemPrintOut().getSlot().get(location);//get the item out of the map
 		
 		int quantitySold = (5 - anItem.getQuantity());
 		
 		double totalSale = quantitySold * anItem.getPrice();
 		
-		aPrintWriter.println(anItem.getName() + " | " + quantitySold + " | Total Sales: $" + String.format("%.2f",totalSale)); 
+		totalSalePrintout = "Total Sales: $" + String.format("%.2f",totalSale);
+		
+		aPrintWriter.println(anItem.getName() + " | " + quantitySold); 
 		
 		}
+		aPrintWriter.println(totalSalePrintout);
 		aPrintWriter.close();
 	
 	}

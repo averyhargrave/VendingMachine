@@ -33,6 +33,9 @@ public class Purchase  {
 //	PrintWriter aPrintWriter = new PrintWriter(aBufferedWriter);
 	
 	
+	public Inventory getItemPrintOut() {
+		return itemPrintOut;
+	}
 	public Purchase(Menu menu) throws FileNotFoundException {
 			this.purchaseMenu = menu;
 			itemPrintOut = new Inventory();
@@ -78,7 +81,7 @@ public class Purchase  {
 			default:
 				System.out.println("This machine only accepts $1, $2, $5, or $10.");
 			}
-			System.out.println("$" + String.format("%.2f", currentMoney) + " remaining");
+			System.out.println("$" + String.format("%.2f", currentMoney) + " entered.");
 			System.out.println("Would you like to feed more money? (Y/N)");
 			String response = userInput.nextLine();
 
@@ -89,7 +92,7 @@ public class Purchase  {
 				continueFeed = false;
 			}
 			else {
-				System.out.println("Not a valid choice please enter Y or N.");
+				System.out.println("Not a valid choice, please enter Y or N.");
 				continueFeed = false;
 			}
 			auditEntry("FEED MONEY", Double.parseDouble(moneyEntered), currentMoney);
