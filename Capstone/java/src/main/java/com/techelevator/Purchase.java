@@ -101,14 +101,24 @@ public class Purchase {
 	}
 	
 //	public double giveChange() {
-//		double quarters = 0; // 0.25
-//		double dimes = 0;    // 0.10
-//		double nickels = 0;  // 0.05
-//		
-//		if(currentMoney % 0.25 == 0) {
-//			quarters = currentMoney / 0.25;
+	//double quarters = 0; // 0.25
+//	double dimes = 0;    // 0.10
+//	double nickels = 0;  // 0.05
+	
+// 	for (int i = 0; i < currentMoney; i++) { // loop through currentMoney
+//		if (currentMoney > .25) {
+//		currentMoney - .25;
+//		quarters++;
 //		}
-//		
+//		else if (currentMoney < .25 && currentMoney > .10){
+		//currentMoney - .10;
+		//dimes++;
+//		}
+//		else if (currentMoney < .10 && currentMoney > 0) {
+		//currentMoney -.05;
+		//nickels++;
+//		}
+//		//System.out.println ("Your change is " + quarters + " quarters
 //	}
 	
 	public String salesReport() {
