@@ -27,7 +27,7 @@ public class Item {
 	}
 	
 	public int getQuantity() {
-		if(quantity < 1) {
+		if(quantity < 0) {
 			System.out.println("SOLD OUT");
 			quantity = 0;
 		}
@@ -46,26 +46,26 @@ public class Item {
 		this.price = price;
 	}
 
-	public String printMessage(String category) {
-		this.category = category;
+	public void printMessage() {
+		//this.category = category;
 		if(category.equalsIgnoreCase("Chip")) {
-			return "Crunch Crunch, Yum!";
+			System.out.println("Crunch Crunch, Yum!");
 		}
 		if(category.equalsIgnoreCase("Candy")) {
-			return "Munch Munch, Yum!";
+			System.out.println("Munch Munch, Yum!");
 		}
 		if(category.equalsIgnoreCase("Drink")) {
-			return "Glug Glug, Yum!";
+			System.out.println("Glug Glug, Yum!");
 		}
 		if(category.equalsIgnoreCase("Gum")) {
-			return "Chew Chew, Yum!";
+			System.out.println("Chew Chew, Yum!");
 		}
-		else return "";
+		
 	}
 	
 	@Override
 	public String toString() {
-		return name + ", $" + price;
+		return name + ", $" + String.format("%.2f", price);
 	}
 
 }

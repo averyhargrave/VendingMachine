@@ -36,7 +36,7 @@ public class VendingMachineCLI {
 	public VendingMachineCLI(Menu menu) throws FileNotFoundException {  // Constructor - user will pas a menu for this class to use
 		this.vendingMenu = menu;           // Make the Menu the user object passed, our Menu
 		
-//		itemPrintOut = new Inventory();
+		itemPrintOut = new Inventory();
 		aPurchase = new Purchase(menu);
 	}
 	/**************************************************************************************************************************
@@ -89,7 +89,7 @@ public class VendingMachineCLI {
 		for(Map.Entry<String, Item> item : itemPrintOut.getSlot().entrySet()) {
 			System.out.print(item.getKey() + ", ");
 			System.out.print(item.getValue().getName() + ", $");
-			System.out.print(item.getValue().getPrice() + ", ");
+			System.out.print(String.format("%.2f", item.getValue().getPrice()) + ", ");
 			System.out.print(item.getValue().getCategory() + ", ");
 			System.out.println(item.getValue().getQuantity());
 		}
