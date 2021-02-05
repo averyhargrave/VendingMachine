@@ -1,11 +1,18 @@
 package com.techelevator;
 
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Scanner;
 import com.techelevator.view.Menu;
 
-public class Purchase {
+public class Purchase  {
 
 
 	private Menu purchaseMenu;
@@ -18,6 +25,11 @@ public class Purchase {
 													    PURCHASE_MENU_OPTION_FINISH_TRANSACTION
 													    };
 	private Inventory itemPrintOut;
+	
+//	File auditReport = new File("./Log.txt");
+//	FileWriter theFile = new FileWriter(auditReport, true);
+//	BufferedWriter aBufferedWriter= new BufferedWriter(theFile);
+//	PrintWriter aPrintWriter = new PrintWriter(aBufferedWriter);
 	
 	
 	public Purchase(Menu menu) throws FileNotFoundException {
@@ -137,16 +149,31 @@ public class Purchase {
 	}
 
 
-	public String salesReport() {
+	public void auditEntry() throws IOException {
+		
+		File auditReport = new File("./Log.txt");
+		
+		FileWriter theFile = new FileWriter(auditReport, true);
+		
+		BufferedWriter aBufferedWriter= new BufferedWriter(theFile);
+		PrintWriter aPrintWriter = new PrintWriter(aBufferedWriter);
+		
+		Timestamp timestampNow = Timestamp.valueOf(LocalDateTime.now());
 		
 		
 		
-		return null;
+		aPrintWriter.println(timestampNow.toString());
+		
+		aPrintWriter.close();
+		
+		
+		
+		
 	}
 	
 	
 	
-	public void purchaseMenu() throws FileNotFoundException {
+	public void purchaseMenu() throws IOException {
 
 		boolean shouldProcess = true;         // Loop control variable
 		
@@ -158,10 +185,12 @@ public class Purchase {
 			
 				case PURCHASE_MENU_OPTION_FEED_MONEY:
 					feedMoney();              // invoke method to display items in Vending Machine
+					
 					break;                    // Exit switch statement
 			
 				case PURCHASE_MENU_OPTION_SELECT_PRODUCT:
 					dispenseItem();			  // invoke method to purchase items from Vending Machine
+					auditEntry();
 					break;                    // Exit switch statement
 			
 				case PURCHASE_MENU_OPTION_FINISH_TRANSACTION:

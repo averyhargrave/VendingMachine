@@ -1,5 +1,6 @@
 package com.techelevator;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Map;
 
 /**************************************************************************************************************************
@@ -51,12 +52,12 @@ public class VendingMachineCLI {
 	*  should be coded
 	*
 	*  Methods should be defined following run() method and invoked from it
-	 * @throws FileNotFoundException 
+	 * @throws IOException 
 	*
 	***************************************************************************************************************************/
 
 	
-	public void run() throws FileNotFoundException {
+	public void run() throws IOException {
 
 		boolean shouldProcess = true;         // Loop control variable
 		
@@ -95,7 +96,7 @@ public class VendingMachineCLI {
 		}
 	}
 	
-	public void purchaseItems() throws FileNotFoundException {	 // static attribute used as method is not associated with specific object instance
+	public void purchaseItems() throws IOException {	 // static attribute used as method is not associated with specific object instance
 		aPurchase.purchaseMenu();
 	}
 	
