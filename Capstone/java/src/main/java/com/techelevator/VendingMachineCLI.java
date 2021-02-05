@@ -24,9 +24,11 @@ public class VendingMachineCLI {
 	private static final String MAIN_MENU_OPTION_DISPLAY_ITEMS = "Display Vending Machine Items";
 	private static final String MAIN_MENU_OPTION_PURCHASE      = "Purchase";
 	private static final String MAIN_MENU_OPTION_EXIT          = "Exit";
+	private static final String MAIN_MENU_OPTION_SALES_REPORT  = "Print Sales Report";
 	private static final String[] MAIN_MENU_OPTIONS = { MAIN_MENU_OPTION_DISPLAY_ITEMS,
 													    MAIN_MENU_OPTION_PURCHASE,
-													    MAIN_MENU_OPTION_EXIT
+													    MAIN_MENU_OPTION_EXIT,
+													    MAIN_MENU_OPTION_SALES_REPORT
 													    };
 	private Inventory itemPrintOut;
 	private Purchase aPurchase;
@@ -78,7 +80,9 @@ public class VendingMachineCLI {
 				case MAIN_MENU_OPTION_EXIT:
 					endMethodProcessing();    // Invoke method to perform end of method processing
 					shouldProcess = false;    // Set variable to end loop
-					break;                    // Exit switch statement
+					break; 
+												// Exit switch statement
+				case MAIN_MENU_OPTION_SALES_REPORT:
 			}	
 		}
 		return;                               // End method and return to caller

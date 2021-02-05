@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Map;
 import java.util.Scanner;
 import com.techelevator.view.Menu;
@@ -41,7 +42,7 @@ public class Purchase  {
 		return currentMoney;
 	}
 	
-	public void feedMoney() {
+	public void feedMoney() throws NumberFormatException, IOException {
 		boolean continueFeed = true;
 		System.out.println("Money remaining: " + currentMoney + "0");
 		do {
@@ -77,7 +78,7 @@ public class Purchase  {
 			default:
 				System.out.println("This machine only accepts $1, $2, $5, or $10.");
 			}
-			System.out.println("$" + currentMoney + "0 remaining");
+			System.out.println("$" + String.format("%.2f", currentMoney) + " remaining");
 			System.out.println("Would you like to feed more money? (Y/N)");
 			String response = userInput.nextLine();
 
@@ -91,20 +92,34 @@ public class Purchase  {
 				System.out.println("Not a valid choice please enter Y or N.");
 				continueFeed = false;
 			}
+			auditEntry("FEED MONEY", Double.parseDouble(moneyEntered), currentMoney);
 		} while(continueFeed);
+		
+		
 	}
 
 	
-	public String dispenseItem() throws FileNotFoundException {
-
+	public String dispenseItem() throws IOException {
+		double startingMoney = 0.0;
+		double endingMoney = 0.0;
+		String nameLocation = "";
+		String salesReportName = "";
+		int quantityRemaining = 0;
+		double sale = 0.0;
 		for(Map.Entry<String, Item> item : itemPrintOut.getSlot().entrySet()) {
 			System.out.print(item.getKey() + ", ");
 			System.out.print(item.getValue().getName() + ", $");
 			System.out.print(String.format("%.2f",item.getValue().getPrice()) + ", ");
 			System.out.println(item.getValue().getQuantity() + " remaining");
+			nameLocation = item.getValue().getName() + " " + item.getKey();
+			salesReportName = item.getValue().getName();
+			quantityRemaining = item.getValue().getQuantity(); 
+			sale = (5 - quantityRemaining) * item.getValue().getPrice();
 		}
+		startingMoney = currentMoney;
+		
 		System.out.println("\nPlease make a selection:");
-
+		
 		Scanner userInput = new Scanner(System.in);
 		String itemChoice = userInput.nextLine();
 
@@ -118,25 +133,31 @@ public class Purchase  {
 		}
 		else {
 			currentMoney -= itemA.getPrice();
-	
+			endingMoney = currentMoney;
 			itemA.setQuantity(itemA.getQuantity() - 1);
 			itemA.printMessage();
 			System.out.println(itemA.toString() + ". You have $" + String.format("%.2f", currentMoney) + " left. " + itemA.getQuantity() + " remaining.");
 		}
-
+		salesReportName = itemA.getName();
+		quantityRemaining = itemA.getQuantity(); 
+		sale += (5 - quantityRemaining) * itemA.getPrice();
+		
+		auditEntry(nameLocation, startingMoney, endingMoney);
+		salesReport(salesReportName, quantityRemaining, sale);
+		
 		return null;
 	}
 	
 	
 	
-	public void giveChange() {
+	public void giveChange() throws IOException {
 
 		double quarter = 0.25;
 		double nickel = 0.05;
 		double dime = 0.10;
-
+		auditEntry("GIVE CHANGE", currentMoney, 0.00);
 		double changeDue = ((double)((int) Math.round((currentMoney)*100)) / 100.0);
-		double modQuarters = ((double)((int) Math.round((changeDue % quarter)*100)) / 100.0);
+		double modQuarters = ((double)((int) Math.round((changeDue % quarter)*100)) / 100.0);//potentially come back
 		double modDimes = ((double)((int) Math.round((modQuarters % dime)*100)) / 100.0);
 		double modNickels = ((double)((int) Math.round((modQuarters % nickel)*100)) / 100.0);
 
@@ -145,12 +166,13 @@ public class Purchase  {
 		int numNickels = (int)((modDimes - modNickels) / (nickel));
 
 		String total = (numQuarters + " quarter(s), " + numDimes + " dime(s), and " + numNickels + " nickel(s)");
+		
 		System.out.println("Your change is " + total);
 	}
 
 
-	public void auditEntry() throws IOException {
-		
+	//public void auditEntry() throws IOException {
+	public void auditEntry(String transactionName, double startingMoney, double currentMoney) throws IOException {
 		File auditReport = new File("./Log.txt");
 		
 		FileWriter theFile = new FileWriter(auditReport, true);
@@ -158,12 +180,10 @@ public class Purchase  {
 		BufferedWriter aBufferedWriter= new BufferedWriter(theFile);
 		PrintWriter aPrintWriter = new PrintWriter(aBufferedWriter);
 		
-		Timestamp timestampNow = Timestamp.valueOf(LocalDateTime.now());
-		
-		
-		
-		aPrintWriter.println(timestampNow.toString());
-		
+		Timestamp timestampNow = Timestamp.valueOf(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
+	
+		//aPrintWriter.println(timestampNow.toString()); 
+		aPrintWriter.println(timestampNow.toString() + " " + transactionName + ": $" + String.format("%.2f",startingMoney) + " $" + String.format("%.2f",currentMoney)); 
 		aPrintWriter.close();
 		
 		
@@ -190,7 +210,7 @@ public class Purchase  {
 			
 				case PURCHASE_MENU_OPTION_SELECT_PRODUCT:
 					dispenseItem();			  // invoke method to purchase items from Vending Machine
-					auditEntry();
+					//auditEntry();
 					break;                    // Exit switch statement
 			
 				case PURCHASE_MENU_OPTION_FINISH_TRANSACTION:
@@ -201,6 +221,21 @@ public class Purchase  {
 			}	
 		}
 		return;                               // End method and return to caller
+	}
+	
+	public void salesReport(String itemName, int quantity, double sale) throws IOException {
+		File salesReport = new File("./SalesReport.txt");
+		
+		FileWriter theFile = new FileWriter(salesReport, true);
+		
+		BufferedWriter aBufferedWriter= new BufferedWriter(theFile);
+		PrintWriter aPrintWriter = new PrintWriter(aBufferedWriter);
+		
+		Timestamp timestampNow = Timestamp.valueOf(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
+	
+		
+		aPrintWriter.println(timestampNow.toString() + " | " + itemName + " | " + quantity + " | TotalSales: $" + String.format("%.2f",sale)); 
+		aPrintWriter.close();
 	}
 	
 	public void endMethodProcessing() {
