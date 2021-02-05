@@ -17,11 +17,12 @@ public class Purchase {
 													   	PURCHASE_MENU_OPTION_SELECT_PRODUCT,
 													    PURCHASE_MENU_OPTION_FINISH_TRANSACTION
 													    };
-
+	private Inventory itemPrintOut;
 	
 	
-	public Purchase(Menu menu) {
+	public Purchase(Menu menu) throws FileNotFoundException {
 			this.purchaseMenu = menu;
+			itemPrintOut = new Inventory();
 	}
 	
 	public double getCurrentMoney() {
@@ -78,25 +79,32 @@ public class Purchase {
 	}
 	
 	public String dispenseItem() throws FileNotFoundException {
-		Inventory itemPrintOut = new Inventory();
+		
 		for(Map.Entry<String, Item> item : itemPrintOut.getSlot().entrySet()) {
 			System.out.print(item.getKey() + ", ");
 			System.out.print(item.getValue().getName() + ", $");
 			System.out.print(item.getValue().getPrice() + ", ");
-			System.out.println(itemPrintOut.getQuantity() + " remaining");
+			System.out.println(item.getValue().getQuantity() + " remaining");
 		}
 		System.out.println("\nPlease make a selection:");
 		
 		Scanner userInput = new Scanner(System.in);
 		String itemChoice = userInput.nextLine();
 		
-		for(Map.Entry<String, Item> i : itemPrintOut.getSlot().entrySet()) {
-			if(itemChoice.equalsIgnoreCase(i.getKey())) {
-				currentMoney -= i.getValue().getPrice();
-				itemPrintOut.setQuantity(itemPrintOut.getQuantity() - 1);
-				System.out.println(i.getValue().toString() + ". You have $" + currentMoney + " left. " + itemPrintOut.getQuantity() + " remaining.");
-			}
-		}
+		Item itemA = itemPrintOut.getSlot().get(itemChoice);
+																// if above returns null item doesnt exist
+																// check if sold out
+																// if we're good
+		itemA.setQuantity(itemA.getQuantity() - 1);
+		System.out.println(itemA.toString() + ". You have $" + currentMoney + " left. " + itemA.getQuantity() + " remaining.");
+		
+//		for(Map.Entry<String, Item> i : itemPrintOut.getSlot().entrySet()) {
+//			if(itemChoice.equalsIgnoreCase(i.getKey())) {
+//				currentMoney -= i.getValue().getPrice();
+//				itemPrintOut.setQuantity(itemPrintOut.getQuantity() - 1);
+//				System.out.println(i.getValue().toString() + ". You have $" + currentMoney + " left. " + itemPrintOut.getQuantity() + " remaining.");
+//			}
+//		}
 		return null;
 	}
 	

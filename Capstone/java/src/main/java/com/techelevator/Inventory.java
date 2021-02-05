@@ -11,7 +11,6 @@ import java.util.TreeMap;
 public class Inventory {
 
 	private String location;
-	private int quantity = 5;
 	private TreeMap<String, Item> slot;
 
 	public String getLocation() {
@@ -20,16 +19,7 @@ public class Inventory {
 	public void setLocation(String location) {
 		this.location = location;
 	}
-	public int getQuantity() {
-		if(quantity < 1) {
-			System.out.println("SOLD OUT");
-			quantity = 0;
-		}
-		return quantity;
-	}
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
+	
 	public Map<String, Item> getSlot() {
 		return slot;
 	}
@@ -38,7 +28,6 @@ public class Inventory {
 	}
 	
 	public Inventory() throws FileNotFoundException {
-		quantity = getQuantity();
 		this.slot = new TreeMap<String, Item>();
 		loadFile();
 	}
@@ -51,7 +40,6 @@ public class Inventory {
 		String name = "";
 		double price = 0.0;
 		String category = "";
-		quantity = getQuantity();
 		
 		while(inputDataFile.hasNext()) {
 			String itemDetail = inputDataFile.nextLine();

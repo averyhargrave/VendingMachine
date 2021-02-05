@@ -5,6 +5,7 @@ public class Item {
 	private String name; // actual name of item/brand
 	private double price;
 	private String category; // chips, candy, drink, gum
+	private int quantity = 5;
 	
 	public String getName() {
 		return name;
@@ -23,6 +24,17 @@ public class Item {
 	}
 	public void setCategory(String category) {
 		this.category = category;
+	}
+	
+	public int getQuantity() {
+		if(quantity < 1) {
+			System.out.println("SOLD OUT");
+			quantity = 0;
+		}
+		return quantity;
+	}
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 	
 	public Item() {	
