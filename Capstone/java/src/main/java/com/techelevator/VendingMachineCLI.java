@@ -92,6 +92,7 @@ public class VendingMachineCLI {
 												// Exit switch statement
 				case MAIN_MENU_OPTION_SALES_REPORT:
 					salesReport();
+					System.out.println("Now printing...");
 					break;
 			}	
 		}
@@ -126,15 +127,21 @@ public class VendingMachineCLI {
 		Set<String> locations = itemInventory.getItemInventoryMap().keySet();
 		String totalSalePrintout = "";
 		//loop through the map using the keys to get the items
+		
+		double totalSale = 0;
+		
 		for (String location : locations) {
 			
 		Item anItem = aPurchase.getItemInventory().getItemInventoryMap().get(location);//get the item out of the map
 		
 		int quantitySold = (5 - anItem.getQuantity());
 		
-		double totalSale = quantitySold * anItem.getPrice();
-		
-		totalSalePrintout = "Total Sales: $" + String.format("%.2f",totalSale);
+		if(quantitySold > 0) {
+			totalSale += quantitySold * anItem.getPrice();
+			totalSalePrintout = "Total Sales: $" + String.format("%.2f",totalSale);
+		} else {
+			totalSalePrintout = "Total Sales: $" + String.format("%.2f",totalSale);	
+		}
 		
 		aPrintWriter.println(anItem.getName() + " | " + quantitySold); 
 		

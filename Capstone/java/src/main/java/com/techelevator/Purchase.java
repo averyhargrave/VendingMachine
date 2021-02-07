@@ -14,7 +14,7 @@ import java.util.Scanner;
 import com.techelevator.view.Menu;
 
 public class Purchase  {
-//-------------------------------------------------------INSTANCE VARIABLES-----------------------------------------------------------------------------------//
+	//-------------------------------------------------------INSTANCE VARIABLES-----------------------------------------------------------------------------------//
 
 	private Menu purchaseMenu;
 	private double currentMoney;
@@ -22,26 +22,26 @@ public class Purchase  {
 	private static final String PURCHASE_MENU_OPTION_SELECT_PRODUCT     = "Select Product";
 	private static final String PURCHASE_MENU_OPTION_FINISH_TRANSACTION = "Finish Transaction";
 	private static final String[] PURCHASE_MENU_OPTIONS = { PURCHASE_MENU_OPTION_FEED_MONEY,
-													   	PURCHASE_MENU_OPTION_SELECT_PRODUCT,
-													    PURCHASE_MENU_OPTION_FINISH_TRANSACTION
-													    };
+															PURCHASE_MENU_OPTION_SELECT_PRODUCT,
+															PURCHASE_MENU_OPTION_FINISH_TRANSACTION
+															};
 	private Inventory itemInventory;
-//==========================================================================================================================================================//
-//----------------------------------------------------------GETTERS/SETTERS--------------------------------------------------------------------------------//	
+	//==========================================================================================================================================================//
+	//----------------------------------------------------------GETTERS/SETTERS--------------------------------------------------------------------------------//	
 	public Inventory getItemInventory() {
 		return itemInventory;
 	}
 	public double getCurrentMoney() {
 		return currentMoney;
 	}
-//==========================================================================================================================================================//
-//------------------------------------------------------------CONSTRUCTORS----------------------------------------------------------------------------------//	
+	//==========================================================================================================================================================//
+	//------------------------------------------------------------CONSTRUCTORS----------------------------------------------------------------------------------//	
 	public Purchase(Menu menu) throws FileNotFoundException {
-			this.purchaseMenu = menu;
-			itemInventory	  = new Inventory();
+		this.purchaseMenu = menu;
+		itemInventory	  = new Inventory();
 	}
-//==========================================================================================================================================================//
-//-----------------------------------------------------------MEMBER METHODS---------------------------------------------------------------------------------//	
+	//==========================================================================================================================================================//
+	//-----------------------------------------------------------MEMBER METHODS---------------------------------------------------------------------------------//	
 	public void feedMoney() throws NumberFormatException, IOException {
 		boolean continueFeed = true;
 		System.out.println("Money remaining: " + String.format("%.2f", currentMoney));
@@ -94,16 +94,16 @@ public class Purchase  {
 			}
 			auditEntry("FEED MONEY", Double.parseDouble(moneyEntered), currentMoney);
 		} while(continueFeed);
-		
-		
+
+
 	}
 
-	
+
 	public String dispenseItem() throws IOException {
 		double startingMoney = 0.0;
 		double endingMoney = 0.0;
 		String nameLocation = "";
-		
+
 		for(Map.Entry<String, Item> item : itemInventory.getItemInventoryMap().entrySet()) {
 			System.out.print(item.getKey() + ", ");
 			System.out.print(item.getValue().getName() + ", $");
@@ -112,9 +112,9 @@ public class Purchase  {
 			nameLocation = item.getValue().getName() + " " + item.getKey();
 		}
 		startingMoney = currentMoney;
-		
+
 		System.out.println("\nPlease make a selection:");
-		
+
 		Scanner userInput = new Scanner(System.in);
 		String itemChoice = userInput.nextLine();
 
@@ -137,84 +137,87 @@ public class Purchase  {
 			itemA.printMessage();
 			System.out.println(itemA.toString() + ". You have $" + String.format("%.2f", currentMoney) + " left. " + itemA.getQuantity() + " remaining.");
 		}
-		
+
 		auditEntry(nameLocation, startingMoney, endingMoney);
-		
-		
+
+
 		return null;
 	}
-	
-	
-	
+
+
 	public void giveChange() throws IOException {
 
-		double quarter = 0.25;
-		double nickel = 0.05;
-		double dime = 0.10;
+		int quarters = 0;
+		int dimes = 0;
+		int nickels = 0;
+		int change = 0;
+
 		auditEntry("GIVE CHANGE", currentMoney, 0.00);
-		double changeDue = ((double)((int) Math.round((currentMoney)*100)) / 100.0);
-		double modQuarters = ((double)((int) Math.round((changeDue % quarter)*100)) / 100.0);//potentially come back
-		double modDimes = ((double)((int) Math.round((modQuarters % dime)*100)) / 100.0);
-		double modNickels = ((double)((int) Math.round((modQuarters % nickel)*100)) / 100.0);
 
-		int numQuarters = (int)((changeDue - modQuarters) / (quarter));
-		int numDimes = (int)((modQuarters - modDimes) / (dime));
-		int numNickels = (int)((modDimes - modNickels) / (nickel));
+		change = (int)(currentMoney * 100);
 
-		String total = (numQuarters + " quarter(s), " + numDimes + " dime(s), and " + numNickels + " nickel(s)");
-		
-		System.out.println("Your change is " + total);
+		while(change > 0) {
+			if(change >= 25) {
+				quarters++;
+				change -= 25;
+			}
+			else if(change >= 10) {
+				System.out.println("made it here");
+				dimes++;
+				change -= 10;
+			}
+			else if(change >= 5) {
+				nickels++;
+				change -= 5;
+			}
+		}
+		System.out.println("Your change is " + (quarters + " quarter(s), " + dimes + " dime(s), and " + nickels + " nickel(s)"));
 	}
 
-
-	//public void auditEntry() throws IOException {
 	public void auditEntry(String transactionName, double startingMoney, double currentMoney) throws IOException {
 		File auditReport = new File("./Log.txt");
-		
+
 		FileWriter theFile = new FileWriter(auditReport, true);
-		
+
 		BufferedWriter aBufferedWriter= new BufferedWriter(theFile);
 		PrintWriter aPrintWriter = new PrintWriter(aBufferedWriter);
-		
+
 		Timestamp timestampNow = Timestamp.valueOf(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
-	
-		//aPrintWriter.println(timestampNow.toString()); 
+
 		aPrintWriter.println(timestampNow.toString() + " " + transactionName + ": $" + String.format("%.2f",startingMoney) + " $" + String.format("%.2f",currentMoney)); 
 		aPrintWriter.close();
 	}
-	
+
 	public void purchaseMenu() throws IOException {
 
 		boolean shouldProcess = true;         // Loop control variable
-		
+
 		while(shouldProcess) {                // Loop until user indicates they want to exit
-			
+
 			String choice = (String)purchaseMenu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);  // Display menu and get choice
-			
+
 			switch(choice) {                  // Process based on user menu choice
-			
-				case PURCHASE_MENU_OPTION_FEED_MONEY:
-					feedMoney();              // invoke method to display items in Vending Machine
-					
-					break;                    // Exit switch statement
-			
-				case PURCHASE_MENU_OPTION_SELECT_PRODUCT:
-					dispenseItem();			  // invoke method to purchase items from Vending Machine
-					//auditEntry();
-					break;                    // Exit switch statement
-			
-				case PURCHASE_MENU_OPTION_FINISH_TRANSACTION:
-					giveChange();
-					endMethodProcessing();    // Invoke method to perform end of method processing
-					shouldProcess = false;    // Set variable to end loop
-					break;                    // Exit switch statement
+
+			case PURCHASE_MENU_OPTION_FEED_MONEY:
+				feedMoney();              // invoke method to display items in Vending Machine
+				break;                    // Exit switch statement
+
+			case PURCHASE_MENU_OPTION_SELECT_PRODUCT:
+				dispenseItem();			  // invoke method to purchase items from Vending Machine
+				break;                    // Exit switch statement
+
+			case PURCHASE_MENU_OPTION_FINISH_TRANSACTION:
+				giveChange();
+				endMethodProcessing();    // Invoke method to perform end of method processing
+				shouldProcess = false;    // Set variable to end loop
+				break;                    // Exit switch statement
 			}	
 		}
 		return;                               // End method and return to caller
 	}
-	
+
 	public void endMethodProcessing() {
 		System.out.println("Enjoy!");
-		
+
 	}
 }
