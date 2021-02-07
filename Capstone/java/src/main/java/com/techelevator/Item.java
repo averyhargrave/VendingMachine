@@ -1,12 +1,13 @@
 package com.techelevator;
 
 public class Item {
-
-	private String name; // actual name of item/brand
-	private double price;
-	private String category; // chips, candy, drink, gum
-	private int quantity = 5;
-	
+//-----------------------------------------------------------------INSTANCE VARIABLES-----------------------------------------------------------------------------------//
+	private String 	name; // actual name of item/brand
+	private double 	price;
+	private String 	category; // chips, candy, drink, gum
+	private int 	quantity = 5;
+//=====================================================================================================================================================================//
+//-----------------------------------------------------------------GETTERS/SETTERS-------------------------------------------------------------------------------------//	
 	public String getName() {
 		return name;
 	}	
@@ -36,18 +37,19 @@ public class Item {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
-	
-	public Item() {	
+//==========================================================================================================================================================================//
+//------------------------------------------------------------------------CONSTRUCTORS-------------------------------------------------------------------------------------//	
+	public Item() {															//Default constructor
 	}
 	
-	public Item(String category, String name, double price) {
+	public Item(String category, String name, double price) {				// 3 argument constructor
 		this.category = category;
-		this.name = name;
-		this.price = price;
+		this.name 	  = name;
+		this.price 	  =	price;
 	}
-
+//===========================================================================================================================================================================//
+//----------------------------------------------------------------------ADDITIONAL METHODS----------------------------------------------------------------------------------//	
 	public void printMessage() {
-		//this.category = category;
 		if(category.equalsIgnoreCase("Chip")) {
 			System.out.println("Crunch Crunch, Yum!");
 		}
@@ -62,10 +64,11 @@ public class Item {
 		}
 		
 	}
-	
+//==============================================================================================================================================================================//
+//--------------------------------------------------------------------------OVERRIDES-------------------------------------------------------------------------------------------//	
 	@Override
 	public String toString() {
-		return name + ", $" + String.format("%.2f", price);
+		return name + " cost(s)" + ", $" + String.format("%.2f", price);
 	}
 
 }

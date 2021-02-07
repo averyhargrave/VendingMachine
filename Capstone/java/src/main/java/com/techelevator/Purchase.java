@@ -14,7 +14,7 @@ import java.util.Scanner;
 import com.techelevator.view.Menu;
 
 public class Purchase  {
-
+//-------------------------------------------------------INSTANCE VARIABLES-----------------------------------------------------------------------------------//
 
 	private Menu purchaseMenu;
 	private double currentMoney;
@@ -25,26 +25,23 @@ public class Purchase  {
 													   	PURCHASE_MENU_OPTION_SELECT_PRODUCT,
 													    PURCHASE_MENU_OPTION_FINISH_TRANSACTION
 													    };
-	private Inventory itemPrintOut;
-	
-//	File auditReport = new File("./Log.txt");
-//	FileWriter theFile = new FileWriter(auditReport, true);
-//	BufferedWriter aBufferedWriter= new BufferedWriter(theFile);
-//	PrintWriter aPrintWriter = new PrintWriter(aBufferedWriter);
-	
-	
-	public Inventory getItemPrintOut() {
-		return itemPrintOut;
+	private Inventory itemInventory;
+//==========================================================================================================================================================//
+//----------------------------------------------------------GETTERS/SETTERS--------------------------------------------------------------------------------//	
+	public Inventory getItemInventory() {
+		return itemInventory;
 	}
-	public Purchase(Menu menu) throws FileNotFoundException {
-			this.purchaseMenu = menu;
-			itemPrintOut = new Inventory();
-	}
-	
 	public double getCurrentMoney() {
 		return currentMoney;
 	}
-	
+//==========================================================================================================================================================//
+//------------------------------------------------------------CONSTRUCTORS----------------------------------------------------------------------------------//	
+	public Purchase(Menu menu) throws FileNotFoundException {
+			this.purchaseMenu = menu;
+			itemInventory	  = new Inventory();
+	}
+//==========================================================================================================================================================//
+//-----------------------------------------------------------MEMBER METHODS---------------------------------------------------------------------------------//	
 	public void feedMoney() throws NumberFormatException, IOException {
 		boolean continueFeed = true;
 		System.out.println("Money remaining: " + String.format("%.2f", currentMoney));
@@ -107,7 +104,7 @@ public class Purchase  {
 		double endingMoney = 0.0;
 		String nameLocation = "";
 		
-		for(Map.Entry<String, Item> item : itemPrintOut.getSlot().entrySet()) {
+		for(Map.Entry<String, Item> item : itemInventory.getItemInventoryMap().entrySet()) {
 			System.out.print(item.getKey() + ", ");
 			System.out.print(item.getValue().getName() + ", $");
 			System.out.print(String.format("%.2f",item.getValue().getPrice()) + ", ");
@@ -121,13 +118,17 @@ public class Purchase  {
 		Scanner userInput = new Scanner(System.in);
 		String itemChoice = userInput.nextLine();
 
-		Item itemA = itemPrintOut.getSlot().get(itemChoice.toUpperCase());
+		Item itemA = itemInventory.getItemInventoryMap().get(itemChoice.toUpperCase());
 
 		if (itemA == null) {												// if above returns null item doesnt exist
 			System.out.println("That item doesn't exist.");
 		}
 		else if(currentMoney < itemA.getPrice()) {
 			System.out.println("Not enough money!");
+		}
+		else if(itemA.getQuantity() == 0) {
+			System.out.println("SOLD OUT");
+			System.out.println(itemA.toString() + ". You have $" + String.format("%.2f", currentMoney) + " left. " + itemA.getQuantity() + " remaining.");
 		}
 		else {
 			currentMoney -= itemA.getPrice();
@@ -182,8 +183,6 @@ public class Purchase  {
 		aPrintWriter.close();
 	}
 	
-	
-	
 	public void purchaseMenu() throws IOException {
 
 		boolean shouldProcess = true;         // Loop control variable
@@ -214,9 +213,8 @@ public class Purchase  {
 		return;                               // End method and return to caller
 	}
 	
-	
-	
 	public void endMethodProcessing() {
+		System.out.println("Enjoy!");
 		
 	}
 }

@@ -38,7 +38,7 @@ public class VendingMachineCLI {
 													    MAIN_MENU_OPTION_EXIT,
 													    MAIN_MENU_OPTION_SALES_REPORT
 													    };
-	private Inventory itemPrintOut;
+	private Inventory itemInventory;
 	private Purchase aPurchase;
 	
 	
@@ -47,7 +47,7 @@ public class VendingMachineCLI {
 	public VendingMachineCLI(Menu menu) throws FileNotFoundException {  // Constructor - user will pas a menu for this class to use
 		this.vendingMenu = menu;           // Make the Menu the user object passed, our Menu
 		
-		itemPrintOut = new Inventory();
+		itemInventory = new Inventory();
 		aPurchase = new Purchase(menu);
 	}
 	/**************************************************************************************************************************
@@ -101,7 +101,7 @@ public class VendingMachineCLI {
  * Methods used to perform processing
  ********************************************************************************************************/
 	public void displayItems() {      // static attribute used as method is not associated with specific object instance
-		for(Map.Entry<String, Item> item : itemPrintOut.getSlot().entrySet()) {
+		for(Map.Entry<String, Item> item : itemInventory.getItemInventoryMap().entrySet()) {
 			System.out.print(item.getKey() + ", ");
 			System.out.print(item.getValue().getName() + ", $");
 			System.out.print(String.format("%.2f", item.getValue().getPrice()) + ", ");
@@ -123,12 +123,12 @@ public class VendingMachineCLI {
 		PrintWriter aPrintWriter = new PrintWriter(aBufferedWriter);
 	
 		//get all the keys from the map
-		Set<String> locations = itemPrintOut.getSlot().keySet();
+		Set<String> locations = itemInventory.getItemInventoryMap().keySet();
 		String totalSalePrintout = "";
 		//loop through the map using the keys to get the items
 		for (String location : locations) {
 			
-		Item anItem = aPurchase.getItemPrintOut().getSlot().get(location);//get the item out of the map
+		Item anItem = aPurchase.getItemInventory().getItemInventoryMap().get(location);//get the item out of the map
 		
 		int quantitySold = (5 - anItem.getQuantity());
 		
@@ -145,6 +145,7 @@ public class VendingMachineCLI {
 	}
 	
 	public void endMethodProcessing() { // static attribute used as method is not associated with specific object instance
+		System.out.println("Thank you for using the Vendo-Matic 800");
 		// Any processing that needs to be done before method ends
 	}
 }

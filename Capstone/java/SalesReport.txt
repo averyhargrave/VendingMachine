@@ -1,4 +1,4 @@
-Potato Crisps | 0
+Potato Crisps | 5
 Stackers | 0
 Grain Waves | 0
 Cloud Popcorn | 0
@@ -13,5 +13,5 @@ Heavy | 0
 U-Chews | 0
 Little League Chew | 0
 Chiclets | 0
-Triplemint | 3
- | Total Sales: $2.25
+Triplemint | 0
+Total Sales: $0.00
